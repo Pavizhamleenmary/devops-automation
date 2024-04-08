@@ -13,7 +13,7 @@ pipeline {
         stage('Build docker image') {
             steps {
                 script {
-                    sh 'docker build -t kubernetesimage .'
+                    sh 'docker build -t kubernetesiamge .'
                 }
             }
         }
@@ -29,8 +29,8 @@ pipeline {
                         ]
                     ]) {
                         sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 317143483882.dkr.ecr.ap-south-1.amazonaws.com'
-                        sh 'docker tag kubernetesimage:latest 317143483882.dkr.ecr.ap-south-1.amazonaws.com/kubernetesimage:latest'
-                        sh 'docker push 317143483882.dkr.ecr.ap-south-1.amazonaws.com/kubernetesimage:latest'
+                        sh 'docker tag kubernetesiamge:latest 317143483882.dkr.ecr.ap-south-1.amazonaws.com/kubernetesiamge:latest'
+                        sh 'docker push 317143483882.dkr.ecr.ap-south-1.amazonaws.com/kubernetesiamge:latest'
                     }
                 }
             }
