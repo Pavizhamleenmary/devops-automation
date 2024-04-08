@@ -13,10 +13,27 @@ pipeline {
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t javatechie/devops-integration .'
+                    sh 'docker build -t kubernetesiamge .'
                 }
             }
         }
+        stage('Deploy to ECR'){
+            steps{
+                scripts{withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'awscredentials',
+                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+            ]]) {
+                
+                sh 'aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 317143483882.dkr.ecr.ap-south-1.amazonaws.com'
+                sh 'docker tag kubernetesiamge:latest 317143483882.dkr.ecr.ap-south-1.amazonaws.com/kubernetesiamge:latest'
+             
+                sh 'docker push 317143483882.dkr.ecr.ap-south-1.amazonaws.com/kubernetesiamge:latest'
+                
+            }
+                    
+        
 
 
     }
